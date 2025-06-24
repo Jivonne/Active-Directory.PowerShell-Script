@@ -1,0 +1,81 @@
+# Installing DHCP on Active Directory Server 2019 in VMware
+
+This guide provides a step-by-step process for installing and configuring the **DHCP (Dynamic Host Configuration Protocol)** role on a **Windows Server 2019** instance running as an **Active Directory Domain Controller** within a **VMware** virtual machine.
+
+## Prerequisites
+
+Before you begin, ensure you have the following:
+
+* **VMware Workstation or ESXi:** A virtualized environment set up with a Windows Server 2019 VM.
+* **Windows Server 2019 Installation:** A properly installed Windows Server 2019 instance acting as an Active Directory Domain Controller.
+* **Static IP Address:** Your Windows Server 2019 VM should have a **static IP address** configured.
+* **Administrator Privileges:** You need to be logged in with an account that has **administrative privileges** on the server.
+* **Network Connectivity:** Ensure your VM has network connectivity to other devices on your virtual network.
+
+---
+
+## Step-by-Step Installation Guide
+
+### Step 1: Log in to the Server
+
+1.  Log in to your **Windows Server 2019 VM** using an account with administrative privileges (e.g., the Domain Administrator account).
+
+### Step 2: Open Server Manager
+
+1.  Upon logging in, **Server Manager** should launch automatically. If not, you can open it by clicking on the **Start** button and selecting **Server Manager**.
+
+### Step 3: Add Roles and Features
+
+1.  In Server Manager, click on **Manage** in the top-right corner, then select **Add Roles and Features**.
+2.  The **Add Roles and Features Wizard** will appear. Click **Next** on the "Before you begin" page.
+3.  On the "Installation Type" page, select **Role-based or feature-based installation** and click **Next**.
+4.  On the "Server Selection" page, ensure your server is selected from the server pool (it should be the local server). Click **Next**.
+
+### Step 4: Select DHCP Server Role
+
+1.  On the "Server Roles" page, scroll down and check the box next to **DHCP Server**.
+2.  A "Add features that are required for DHCP Server?" dialog box will appear. Click **Add Features** to include the necessary management tools.
+3.  Click **Next**.
+
+### Step 5: Add Features (Optional, if not already added)
+
+1.  On the "Features" page, you typically don't need to add any additional features for DHCP beyond what was automatically selected. Click **Next**.
+
+### Step 6: Confirm Installation Selections
+
+1.  On the "DHCP Server" page, read the brief description of the DHCP role. Click **Next**.
+2.  On the "Confirmation" page, review your selections. Ensure **DHCP Server** is listed. You can optionally check "Restart the destination server automatically if required," but it's generally not necessary for DHCP installation.
+3.  Click **Install**.
+
+### Step 7: Installation Progress and Completion
+
+1.  The installation process will begin. A progress bar will show the status.
+2.  Once the installation is complete, a "Installation succeeded on <YourServerName>" message will appear. Click **Close**.
+
+### Step 8: Complete DHCP Configuration
+
+After the role is installed, you need to complete the post-installation configuration.
+
+1.  In Server Manager, a yellow exclamation mark will appear next to the flag icon in the top-right corner. Click on it.
+2.  Click on **Complete DHCP configuration**.
+3.  The **DHCP Post-Install wizard** will open. Click **Next**.
+4.  On the "Authorization" page, ensure that the option to use the current administrator credentials to authorize DHCP in Active Directory is selected. Click **Commit**.
+5.  The configuration will proceed. Once successful, it will show "Done." Click **Close**.
+
+---
+
+## Next Steps: Configuring DHCP Scopes
+
+Now that DHCP is installed, you need to create **DHCP scopes** to hand out IP addresses to clients. This process involves defining a range of IP addresses, subnet masks, default gateways, DNS servers, and other options.
+
+For further configuration, you can open the **DHCP** management console:
+
+1.  In Server Manager, click on **Tools** in the top-right corner.
+2.  Select **DHCP**.
+
+From the DHCP console, you can:
+* Create new IPv4 and IPv6 scopes.
+* Configure scope options (DNS servers, WINS servers, router/default gateway).
+* Manage address leases.
+* Create reservations.
+* Set up exclusions.
